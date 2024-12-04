@@ -5,6 +5,7 @@ import env from "./env";
 const db = knex({
   client: "postgres",
   connection: {
+    connectionString: env.DB_URL,
     host: env.DB_HOST,
     port: env.DB_PORT,
     database: env.DB_NAME,
