@@ -4,6 +4,7 @@ import { Flex } from "rebass/styled-components";
 import emailValidator from "email-validator";
 import styled from "styled-components";
 import Router from "next/router";
+import getConfig from "next/config";
 import axios from "axios";
 
 import { useStoreState, useStoreActions } from "../store";
@@ -17,6 +18,8 @@ import Text, { H2 } from "../components/Text";
 import ALink from "../components/ALink";
 import Icon from "../components/Icon";
 import Divider from "../components/Divider";
+
+const { publicRuntimeConfig } = getConfig();
 
 const LoginForm = styled(Flex).attrs({
   as: "form",
@@ -121,14 +124,13 @@ const LoginPage = () => {
           />
           Sign up
         </Button>
-      );  
+      );
     }
   }
 
   if (isAuthenticated) {
     return null;
   }
-
 
   return (
     <AppWrapper>
@@ -140,24 +142,17 @@ const LoginPage = () => {
           </H2>
         ) : (
           <Flex flexDirection="column" justifyContent="center">
-            <OidcLogin>        
+            <OidcLogin>
               <ALink href="/login/oidc" title="login/signup oidc" forButton>
-                <Button
-                  flex="1 1 auto"
-                  mb={4}
-                  height={[44, 56]}
-                  width="100%"
-                  >
-                  { process.env.NEXT_PUBLIC_OIDC_BUTTON_LOGO_URL ? (
-                    <OidcButtonLogo src={process.env.NEXT_PUBLIC_OIDC_BUTTON_LOGO_URL} />
+                <Button flex="1 1 auto" mb={4} height={[44, 56]} width="100%">
+                  {publicRuntimeConfig.OIDC_BUTTON_LOGO_URL ? (
+                    <OidcButtonLogo
+                      src={publicRuntimeConfig.OIDC_BUTTON_LOGO_URL}
+                    />
                   ) : (
-                    <Icon
-                      name="login"
-                      stroke="white"
-                      mr={2}
-                      />
+                    <Icon name="login" stroke="white" mr={2} />
                   )}
-                  { process.env.NEXT_PUBLIC_OIDC_BUTTON_LABEL }
+                  {publicRuntimeConfig.OIDC_BUTTON_LABEL}
                 </Button>
               </ALink>
             </OidcLogin>
